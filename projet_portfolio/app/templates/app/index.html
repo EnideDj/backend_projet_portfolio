@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %} 
+
+
+
+    <!-- ======= Header ======= -->
+    {% include 'app/body/header/header.html' %}
+    <!-- End Header -->
+
+    <!-- ======= Hero ======= -->
+    {% include 'app/body/hero/hero.html' %}
+    <!-- End Hero -->
+
+    <!-- ======= #main ======= -->
+    {% comment %} {% block main %}
+    {% endblock %} {% endcomment %}
+    {% include 'app/body/main/main.html' %}
+
+    <!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    {% include 'app/body/footer/footer.html' %}
+    <!-- End Footer -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+{% endblock %}
+
+
