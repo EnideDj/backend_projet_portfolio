@@ -10,7 +10,7 @@ def seed_data():
             home = Home.objects.create(
                 name='Alex Smith',
                 profession='Designer, Developer, Freelancer, Photographer',
-                image='img/profile-img-1.jpg',
+                image='img/hero-bg-1.jpg',
             )
 
             About.objects.create(
@@ -260,7 +260,7 @@ def seed_data():
             home = Home.objects.create(
                 name=fake.name(),
                 profession=', '.join([fake.job() for _ in range(3)]),
-                image=f'img/profile-img-{i}.jpg',
+                image=f'img/hero-bg-{i}.jpg',
             )
 
             About.objects.create(
