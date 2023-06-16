@@ -234,7 +234,23 @@ h6 {
 .mobile-nav-active #header {
   left: 0;
 }
+#header select {
+  font-size: 15px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  background-color: #212431;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  transition: 0.3s;
+}
 
+#header select:hover,
+#header select:focus {
+  background-color: #149ddd;
+  color: #fff;
+  outline: none;
+}
 /*--------------------------------------------------------------
 # home Section
 --------------------------------------------------------------*/

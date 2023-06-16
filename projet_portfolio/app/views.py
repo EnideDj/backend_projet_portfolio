@@ -6,7 +6,7 @@ from .forms import HomeForm, AboutForm, ResumeForm, SummaryForm, EducationForm, 
 
 # ----------FRONTEND----------
 def index(request):
-    profiles = Home.objects.all()
+    profiles = Home.objects.all().order_by('name')
     selected_profile_id = request.GET.get('home_id')
 
     if selected_profile_id:
@@ -106,9 +106,27 @@ def logout(request):
 def profile(request):
     home_info = Home.objects.first()
     about_info = About.objects.first()
+    selected_profile_id = request.GET.get('home_id')
+
+    if selected_profile_id:
+        selected_profile = Home.objects.get(id=selected_profile_id)
+    else:
+        selected_profile = home_info
+
+    if request.method == 'POST':
+        home_form = HomeForm(request.POST, instance=selected_profile)
+        if home_form.is_valid():
+            home_form.save()
+            return redirect('profile')
+    else:
+        home_form = HomeForm(instance=selected_profile)
+
     context = {
         'home_info': home_info,
         'about_info': about_info,
+        'selected_profile': selected_profile,
+        'home_form': home_form,
+        'user': request.user,
     }
     return render(request, 'backoffice/profile.html', context)
 
@@ -149,7 +167,15 @@ def home(request):
             return redirect('home')
     else:
         form = HomeForm(instance=home_info)
-    return render(request, 'backoffice/main/home.html', {'home_form': form, 'home_info': home_info, 'about_info': about_info})
+    
+    context = {
+        'home_info': home_info,
+        'about_info': about_info,
+        'home_form': form,
+        'user': request.user,
+    }
+    
+    return render(request, 'backoffice/main/home.html', context)
 
 
 # ----------ABOUT----------
@@ -163,8 +189,15 @@ def about(request):
             return redirect('about')  
     else:
         form = AboutForm(instance=about_info)
-    return render(request, 'backoffice/main/about.html', {'about_form': form, 'about_info': about_info, 'home_info': home_info})
-
+    
+    context = {
+        'home_info': home_info,
+        'about_info': about_info,
+        'about_form': form,
+        'user': request.user,
+    }
+    
+    return render(request, 'backoffice/main/about.html', context)
 
 # ----------RESUME----------
 def resume(request):
@@ -198,6 +231,8 @@ def resume(request):
         'resume_info': resume_info,
         'about_info': about_info,
         'home_info': home_info,
+        'user': request.user,
+        
     }
     
     return render(request, 'backoffice/main/resume.html', context)
@@ -205,6 +240,7 @@ def resume(request):
 # ----------PORTFOLIO----------
 def portfolio(request):
     home_info = Home.objects.first()
+    about_info = About.objects.first()
     portfolio_info = Portfolio.objects.first()
 
     if request.method == 'POST':
@@ -224,8 +260,12 @@ def portfolio(request):
         portfolio_item_form = PortfolioItemForm()
 
     context = {
+        'about_info': about_info,
+        'home_info': home_info,
         'portfolio_form': portfolio_form,
         'portfolio_item_form': portfolio_item_form,
+        'user': request.user,
+        
     }
     return render(request, 'backoffice/main/portfolio.html', context)
 
@@ -256,6 +296,8 @@ def services(request):
         'services_item_form': services_item_form,
         'about_info': about_info,
         'home_info': home_info,
+        'user': request.user,
+        
     }
     return render(request, 'backoffice/main/services.html', context)
 
@@ -265,6 +307,7 @@ def contact(request):
     contact_info = Contact.objects.first()
     home_info = Home.objects.first()
     about_info = About.objects.first()
+    
     if request.method == 'POST':
         form = ContactForm(request.POST, instance=contact_info)
         if form.is_valid():
@@ -272,8 +315,16 @@ def contact(request):
             return redirect('contact')
     else:
         form = ContactForm(instance=contact_info)
-    return render(request, 'backoffice/main/contact.html',
-        {'contact_form': form, 'about_info': about_info, 'home_info': home_info})
+    
+    context = {
+        'contact_info': contact_info,
+        'home_info': home_info,
+        'about_info': about_info,
+        'contact_form': form,
+        'user': request.user,
+    }
+    
+    return render(request, 'backoffice/main/contact.html', context)
 
 # ----------SKILLS----------
 def skills(request):
@@ -302,6 +353,8 @@ def skills(request):
         'skills_item_form': skills_item_form,
         'about_info': about_info,
         'home_info': home_info,
+        'user': request.user,
+        
     }
     return render(request, 'backoffice/main/skills.html', context)
 
