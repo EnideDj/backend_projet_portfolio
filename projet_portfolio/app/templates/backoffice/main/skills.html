@@ -1,0 +1,20 @@
+
+{% extends 'backoffice/profile.html' %}
+{% load static %}
+
+{% block contentadminMain %}
+
+<section class="skills"> 
+    <div class="container"> 
+        <form method="post">
+            {% csrf_token %}
+            {{ skills_form.as_p }}
+            {{ skills_item_form.management_form }}
+            {% for form in skills_item_form %}
+                {{ form.as_p }}
+            {% endfor %}
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

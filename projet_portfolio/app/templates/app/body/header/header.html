@@ -5,8 +5,8 @@
 <header id="header">
     <div class="d-flex flex-column">
         <div class="profile">
-            <img src="{% static 'img/profile-img.jpg' %}"  alt="" class="img-fluid rounded-circle">
-            <h1 class="text-light"><a href="">Alex Smith</a></h1>
+            <img src="{% static '' %}{{about_info.image_path}}"  alt="" class="img-fluid rounded-circle">
+            <h1 class="text-light"><a href="">{{ home_info.name }}</a></h1>
             <div class="social-links mt-3 text-center">
             <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
             <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -18,12 +18,55 @@
 
         <nav id="navbar" class="nav-menu navbar">
             <ul>
-            <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
-            <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-            <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-            <li><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
-            <li><a href="#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Services</span></a></li>
-            <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <a href="http://127.0.0.1:8000/accounts/profile/home" class="nav-link scrollto"><i class="bx bx-home"></i> <span>Home</span></a>
+                    {% else %}
+                        <a href="http://127.0.0.1:8000/#home" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <a href="http://127.0.0.1:8000/accounts/profile/about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a>
+                    {% else %}
+                        <a href="http://127.0.0.1:8000/#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <a href="http://127.0.0.1:8000/accounts/profile/resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a>
+                    {% else %}
+                        <a href="http://127.0.0.1:8000/#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <a href="http://127.0.0.1:8000/accounts/profile/portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a>
+                    {% else %}
+                        <a href="http://127.0.0.1:8000/#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <a href="http://127.0.0.1:8000/accounts/profile/services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Services</span></a>
+                    {% else %}
+                        <a href="http://127.0.0.1:8000/#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Services</span></a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <a href="http://127.0.0.1:8000/accounts/profile/contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a>
+                    {% else %}
+                        <a href="http://127.0.0.1:8000/#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a>
+                    {% endif %}
+                </li>
+                <li class="text-center" >
+                    {% if user.is_authenticated %}
+                        <p class="text-white text-center"> <a href="{% url 'logout' %}"><i class="bx bx-log-out-circle"></i>Déconnexion</a>Bienvenue, {{ user.username }}.</p>
+                    {% else %}
+                        <a  href="{% url 'login' %}"><i class="bx bx-log-in-circle"></i>Connexion</a>
+                    {% endif %}
+                </li>
             </ul>
         </nav><!-- .nav-menu -->
     </div>

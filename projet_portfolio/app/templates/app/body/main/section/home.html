@@ -1,0 +1,7 @@
+{% load static %}
+<section id="home" class="d-flex flex-column justify-content-center align-items-center" style="width: 100%; height: 100vh; background: url({% static 'img/hero-bg.jpg' %}) top center; background-size: cover;">
+    <div class="home-container" data-aos="fade-in">
+        <h1 id="home-name">{{ home_info.name }}</h1>
+        <p>I'm <span class="typed" data-typed-items="{{ home_info.profession }}" id="home-profession"></span></p>
+    </div>
+</section>

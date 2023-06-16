@@ -1,0 +1,19 @@
+
+{% extends 'backoffice/profile.html' %}
+{% load static %}
+
+{% block contentadminMain %}
+
+</section>
+<section class="resume">
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {{ resume_form.as_p }}
+            {{ education_form.as_p }}
+            {{ experience_form.as_p }}
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

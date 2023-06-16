@@ -127,7 +127,7 @@
   });
 
   /**
-   * Hero type effect
+   * home type effect
    */
   const typed = select('.typed')
   if (typed) {
@@ -260,3 +260,42 @@
   new PureCounter();
 
 })()
+
+window.addEventListener('DOMContentLoaded', (event) => {
+  // Sélectionnez tous les filtres
+  const filters = document.querySelectorAll('#portfolio-flters li');
+
+  // Ajoutez un écouteur d'événements à chaque filtre
+  filters.forEach(filter => {
+      filter.addEventListener('click', function() {
+          // Supprimez la classe 'filter-active' de tous les filtres
+          filters.forEach(filter => filter.classList.remove('filter-active'));
+
+          // Ajoutez la classe 'filter-active' au filtre cliqué
+          this.classList.add('filter-active');
+
+          // Obtenez la valeur de l'attribut 'data-filter' du filtre cliqué
+          const filterValue = this.getAttribute('data-filter');
+
+          // Sélectionnez tous les éléments du portfolio
+          const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+          // Parcourez chaque élément du portfolio
+          portfolioItems.forEach(item => {
+              // Si le filtre est '*', montrez tous les éléments
+              if (filterValue === '*') {
+                  item.style.display = 'block';
+              }
+              // Sinon, montrez seulement les éléments qui correspondent au filtre
+              else {
+                  if (item.classList.contains(filterValue.slice(1))) {
+                      item.style.display = 'block';
+                  } else {
+                      item.style.display = 'none';
+                  }
+              }
+          });
+      });
+  });
+});
+

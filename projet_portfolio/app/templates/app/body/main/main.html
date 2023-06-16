@@ -1,16 +1,21 @@
-{% comment %} {% extends 'app/index.html'%}
-{% load static %} {% endcomment %}
+{%  extends 'app/index.html'  %}
 
-
-{% comment %} {% block main %}  {% endcomment %}
+{% block main %}
     <main id="main">
-        {% include 'app/body/main/section/about.html' %}
-        {% include 'app/body/main/section/facts.html' %}
-        {% include 'app/body/main/section/skills.html' %}
-        {% include 'app/body/main/section/resume.html' %}
-        {% include 'app/body/main/section/portfolio.html' %}
-        {% include 'app/body/main/section/services.html' %}
-        {% include 'app/body/main/section/testimonials.html' %}
-        {% include 'app/body/main/section/contact.html' %}        
+            {% include 'app/body/main/section/home.html' %}
+            {% include 'app/body/main/section/about.html' %}
+            {% include 'app/body/main/section/facts.html' %}
+            {% include 'app/body/main/section/skills.html' %}
+            {% include 'app/body/main/section/resume.html' %}
+            {% include 'app/body/main/section/portfolio.html' %}
+            {% include 'app/body/main/section/services.html' %}
+            {% include 'app/body/main/section/testimonials.html' %}
+            {% include 'app/body/main/section/contact.html' %}
+            
     </main>
-{% comment %} {% endblock %} {% endcomment %}
+{% endblock %}
+
+
+
+
+
