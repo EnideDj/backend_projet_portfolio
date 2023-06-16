@@ -8,15 +8,17 @@
         <div class="row">
             <div class="col-lg-6" data-aos="fade-up">
                 <h3 class="resume-title">Summary</h3>
-                <div class="resume-item pb-0">
-                    <h4 id="summary-name">{{ resume_info.summary_name }}</h4>
-                    <p><em id="summary-description">{{ resume_info.summary_description }}</em></p>
-                    <ul>
-                        <li id="summary-address">{{ resume_info.summary_address }}</li>
-                        <li id="summary-phone">{{ resume_info.summary_phone }}</li>
-                        <li id="summary-email">{{ resume_info.summary_email }}</li>
-                    </ul>
-                </div>
+                {% for summary in summary_info %}
+                    <div class="resume-item pb-0">
+                        <h4 id="summary-name">{{ summary.name }}</h4>
+                        <p><em id="summary-description">{{ summary.description }}</em></p>
+                        <ul>
+                            <li id="summary-address">{{ summary.address }}</li>
+                            <li id="summary-phone">{{ summary.phone }}</li>
+                            <li id="summary-email">{{ summary.email }}</li>
+                        </ul>
+                    </div>
+                {% endfor %}
 
                 <h3 class="resume-title">Education</h3>
                 {% for education in education_info %}
@@ -43,4 +45,3 @@
         </div>
     </div>
 </section>
-

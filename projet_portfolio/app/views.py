@@ -1,71 +1,91 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Home, About, Resume, Services, ServicesItem, Contact, Portfolio, PortfolioItem, Skills, SkillsItem, Education, Experience
-from .forms import HomeForm, AboutForm, ResumeForm, EducationForm, ExperienceForm, ServicesForm, ServicesItemForm, ContactForm, PortfolioForm, PortfolioItemForm, SkillsForm, SkillsItemForm
+from .models import Home, About, Resume, Summary, Education, Experience, Services, ServicesItem, Contact, Portfolio, PortfolioItem, Skills, SkillsItem
+from .forms import HomeForm, AboutForm, ResumeForm, SummaryForm, EducationForm, ExperienceForm, ServicesForm, ServicesItemForm, ContactForm, PortfolioForm, PortfolioItemForm, SkillsForm, SkillsItemForm
 
 
-# Create your views here.
+# ----------FRONTEND----------
 def index(request):
-    home_info = Home.objects.first()
-    home_form = HomeForm(instance=home_info)
+    profiles = Home.objects.all()
+    selected_profile_id = request.GET.get('home_id')
 
-    about_info = About.objects.first()
-    about_form = AboutForm(instance=about_info)
+    if selected_profile_id:
+        selected_profile = Home.objects.get(id=selected_profile_id)
+        about_info = About.objects.get(home=selected_profile)
+        resume_info = Resume.objects.get(home=selected_profile)
+        summary_info = Summary.objects.filter(home=selected_profile, resume=resume_info)
+        experience_info = Experience.objects.filter(home=selected_profile, resume=resume_info)
+        education_info = Education.objects.filter(home=selected_profile, resume=resume_info)
+        contact_info = Contact.objects.filter(home=selected_profile).first()
+        contact_form = ContactForm(instance=contact_info)
 
-    resume_info = Resume.objects.first()
-    resume_form = ResumeForm(instance=resume_info)
+        services_info = Services.objects.filter(home=selected_profile).first()
+        services_form = ServicesForm(instance=services_info)
+        services_item = ServicesItem.objects.filter(services=services_info)
 
-    contact_info = Contact.objects.first()
-    contact_form = ContactForm(instance=contact_info)
+        portfolio_info = Portfolio.objects.filter(home=selected_profile).first()
+        portfolio_form = PortfolioForm(instance=portfolio_info)
+        portfolio_item = PortfolioItem.objects.filter(portfolio=portfolio_info).order_by('id')
 
-    services_info = Services.objects.first()
-    services_form = ServicesForm(instance=services_info)
-    services_item = ServicesItem.objects.filter(services=services_info)
+        skills_info = Skills.objects.filter(home=selected_profile).first()
+        skills_form = SkillsForm(instance=skills_info)
+        skills_item = SkillsItem.objects.filter(skills=skills_info)
 
-    portfolio_info = Portfolio.objects.first()
-    portfolio_form = PortfolioForm(instance=portfolio_info)
-    portfolio_item = PortfolioItem.objects.filter(portfolio=portfolio_info).order_by('id')
+        home_info = selected_profile
+        home_form = HomeForm(instance=home_info)
 
-    skills_info = Skills.objects.first()
-    skills_form = SkillsForm(instance=skills_info)
-    skills_item = SkillsItem.objects.filter(skills=skills_info)
-    
-    experience_info = Experience.objects.filter(resume=resume_info)
-    education_info = Education.objects.filter(resume=resume_info)
+    else:
+        selected_profile = Home.objects.first()
+        about_info = About.objects.filter(home=selected_profile).first()
+        resume_info = Resume.objects.filter(home=selected_profile).first()
+        summary_info = Summary.objects.filter(home=selected_profile, resume=resume_info)
+        experience_info = Experience.objects.filter(home=selected_profile, resume=resume_info)
+        education_info = Education.objects.filter(home=selected_profile, resume=resume_info)
+        contact_info = Contact.objects.filter(home=selected_profile).first()
+        contact_form = ContactForm(instance=contact_info)
+
+        services_info = Services.objects.filter(home=selected_profile).first()
+        services_form = ServicesForm(instance=services_info)
+        services_item = ServicesItem.objects.filter(services=services_info)
+
+        portfolio_info = Portfolio.objects.filter(home=selected_profile).first()
+        portfolio_form = PortfolioForm(instance=portfolio_info)
+        portfolio_item = PortfolioItem.objects.filter(portfolio=portfolio_info).order_by('id')
+
+        skills_info = Skills.objects.filter(home=selected_profile).first()
+        skills_form = SkillsForm(instance=skills_info)
+        skills_item = SkillsItem.objects.filter(skills=skills_info)
+
+        home_info = selected_profile
+        home_form = HomeForm(instance=home_info)
 
     context = {
-        'home_info': home_info,
-        'home_form': home_form,
-        
+        'profiles': profiles,
+        'selected_profile': selected_profile,
         'about_info': about_info,
-        'about_form': about_form,
-        
         'resume_info': resume_info,
-        'resume_form': resume_form,
+        'summary_info': summary_info,
         'experience_info': experience_info,
         'education_info': education_info,
-        
         'contact_info': contact_info,
         'contact_form': contact_form,
-        
         'services_info': services_info,
         'services_form': services_form,
         'services_item': services_item,
-        
         'portfolio_info': portfolio_info,
         'portfolio_form': portfolio_form,
         'portfolio_item': portfolio_item,
-        
         'skills_info': skills_info,
         'skills_form': skills_form,
         'skills_item': skills_item,
-        
+        'home_info': home_info,
+        'home_form': home_form,
         'user': request.user,
     }
 
     return render(request, 'app/body/main/main.html', context)
 
-def portfolio_test(request):
+def portfolio_details(request):
     portfolio_info = Portfolio.objects.first()
     portfolio_item = PortfolioItem.objects.filter(portfolio=portfolio_info).order_by('id')
 
@@ -154,26 +174,30 @@ def resume(request):
     
     if request.method == 'POST':
         resume_form = ResumeForm(request.POST, instance=resume_info)
+        summary_form = SummaryForm(request.POST, prefix='summary', instance=resume_info.summary)
         education_form = EducationForm(request.POST, prefix='education', instance=resume_info.education)
         experience_form = ExperienceForm(request.POST, prefix='experience', instance=resume_info)
         
-        if resume_form.is_valid() and education_form.is_valid() and experience_form.is_valid():
+        if resume_form.is_valid() and summary_form.isvalid() and education_form.is_valid() and experience_form.is_valid():
             resume_form.save()
+            summary_form.save()
             education_form.save()
             experience_form.save()
             return redirect('resume')
     else:
         resume_form = ResumeForm(instance=resume_info)
+        summary_form = SummaryForm()
         education_form = EducationForm()
         experience_form = ExperienceForm()
     
     context = {
         'resume_form': resume_form,
+        'summary_form': summary_form,
         'education_form': education_form,
         'experience_form': experience_form,
+        'resume_info': resume_info,
         'about_info': about_info,
         'home_info': home_info,
-        'resume_info': resume_info,
     }
     
     return render(request, 'backoffice/main/resume.html', context)

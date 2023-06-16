@@ -23,5 +23,5 @@ urlpatterns = [
     path('accounts/profile/skills/', views.skills, name='skills'),
     
     path('', views.index, name='index'),
-    path('portfolio/', views.portfolio_test, name='portfolio_test'),
+    path('portfolio_details/', views.portfolio_details, name='portfolio_details'),
 ]

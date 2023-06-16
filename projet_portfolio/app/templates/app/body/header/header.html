@@ -5,8 +5,14 @@
 <header id="header">
     <div class="d-flex flex-column">
         <div class="profile">
-            <img src="{% static '' %}{{about_info.image_path}}"  alt="" class="img-fluid rounded-circle">
-            <h1 class="text-light"><a href="">{{ home_info.name }}</a></h1>
+            <img src="{% static '' %}{{about_info.image}}" alt="" class="img-fluid rounded-circle">
+            <h1 class="text-light">
+                <select onchange="location = this.value;">
+                    {% for profile in profiles %}
+                        <option value="{% url 'index' %}?home_id={{ profile.id }}" {% if selected_profile and profile.id == selected_profile.id %}selected{% endif %}>{{ profile.name }}</option>
+                    {% endfor %}
+                </select>
+            </h1>
             <div class="social-links mt-3 text-center">
             <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
             <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -67,6 +73,7 @@
                         <a  href="{% url 'login' %}"><i class="bx bx-log-in-circle"></i>Connexion</a>
                     {% endif %}
                 </li>
+
             </ul>
         </nav><!-- .nav-menu -->
     </div>

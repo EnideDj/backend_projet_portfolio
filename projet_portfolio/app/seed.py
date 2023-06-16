@@ -1,23 +1,22 @@
-from .models import Home, About, Resume, Experience, Education, Services, ServicesItem, Contact, Portfolio, PortfolioItem, Skills, SkillsItem
+from .models import Home, About, Resume, Experience, Summary, Education, Services, ServicesItem, Contact, Portfolio, PortfolioItem, Skills, SkillsItem
 from django.utils import timezone
 import random
 from faker import Faker
 fake = Faker()
 
 def seed_data():
-    image_counter = 1 
     for i in range(1, 25):
         if i == 1:  
             home = Home.objects.create(
                 name='Alex Smith',
                 profession='Designer, Developer, Freelancer, Photographer',
-                image_path='img/profile-img-1.jpg',
+                image='img/profile-img-1.jpg',
             )
 
             About.objects.create(
                 home=home,
-                about_text='Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.',
-                image_path='img/profile-img-1.jpg',
+                description='Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.',
+                image='img/profile-img-1.jpg',
                 job_title='UI/UX Designer & Web Developer.',
                 about_me='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                 birthday=timezone.datetime(year=1995, month=5, day=1),
@@ -33,13 +32,17 @@ def seed_data():
             resume = Resume.objects.create(
                 home=home,
                 description='Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.',
-                summary_name='Alex Smith',
-                summary_description='Innovative and deadline-driven Graphic Designer with 3+ years of experience designing and developing user-centered digital/print marketing material from initial concept to final, polished deliverable.',
-                summary_address='Portland par 127,Orlando, FL',
-                summary_phone='(123) 456-7891',
-                summary_email='alice.barkley@example.com',
+                
             )
-            
+            Summary.objects.create(
+                home=home,
+                resume=resume,
+                name='Alex Smith',
+                description='Innovative and deadline-driven Graphic Designer with 3+ years of experience designing and developing user-centered digital/print marketing material from initial concept to final, polished deliverable.',
+                address='Portland par 127,Orlando, FL',
+                phone='(123) 456-7891',
+                email='alice.barkley@example.com',
+            )
             Education.objects.create(
                 home=home,
                 resume=resume,
@@ -85,7 +88,7 @@ def seed_data():
                 category='App',
                 image='img/portfolio/portfolio-1.jpg',
                 title='App 1',
-                project_url='portfolio-details.html'
+                url='portfolio_details'
             )
 
             PortfolioItem.objects.create(
@@ -94,7 +97,7 @@ def seed_data():
                 category='Web',
                 image='img/portfolio/portfolio-2.jpg',
                 title='Web 3',
-                project_url='portfolio-details.html'
+                url='portfolio_details'
             )
             PortfolioItem.objects.create(
                 home=home,
@@ -102,7 +105,7 @@ def seed_data():
                 category='App',
                 image='img/portfolio/portfolio-3.jpg',
                 title='App 2',
-                project_url='portfolio-details.html'
+                url='portfolio_details'
             )
             PortfolioItem.objects.create(
                 home=home,
@@ -110,7 +113,7 @@ def seed_data():
                 category='Card',
                 image='img/portfolio/portfolio-4.jpg',
                 title='Card 2',
-                project_url='portfolio-details.html'
+                url='portfolio_details'
             )
             PortfolioItem.objects.create(
                 home=home,
@@ -118,7 +121,7 @@ def seed_data():
                 category='Web',
                 image='img/portfolio/portfolio-5.jpg',
                 title='Web 2',
-                project_url='portfolio-details.html'
+                url='portfolio_details'
             )
             PortfolioItem.objects.create(
                 home=home,
@@ -126,7 +129,7 @@ def seed_data():
                 category='App',
                 image='img/portfolio/portfolio-6.jpg',
                 title='App 3',
-                project_url='portfolio-details.html'
+                url='portfolio_details'
             ) 
             PortfolioItem.objects.create(
                 home=home,
@@ -134,7 +137,7 @@ def seed_data():
                 category='Card',
                 image='img/portfolio/portfolio-7.jpg',
                 title='Card 1',
-                project_url='portfolio-details.html'
+                url='portfolio_details'
             ) 
             PortfolioItem.objects.create(
                 home=home,
@@ -142,7 +145,7 @@ def seed_data():
                 category='Card',
                 image='img/portfolio/portfolio-8.jpg',
                 title='Card 3',
-                project_url='portfolio-details.html'
+                url='portfolio_details'
             ) 
             PortfolioItem.objects.create(
                 home=home,
@@ -150,7 +153,7 @@ def seed_data():
                 category='Web',
                 image='img/portfolio/portfolio-9.jpg',
                 title='Web 3',
-                project_url='portfolio-details.html'
+                url='portfolio_details'
             )
             
             services= Services.objects.create(
@@ -257,13 +260,13 @@ def seed_data():
             home = Home.objects.create(
                 name=fake.name(),
                 profession=', '.join([fake.job() for _ in range(3)]),
-                image_path=f'img/profile-img-{i}.jpg',
+                image=f'img/profile-img-{i}.jpg',
             )
 
             About.objects.create(
                 home=home,
-                about_text=fake.text(),
-                image_path=f'img/profile-img-{i}.jpg',
+                description=fake.text(),
+                image=f'img/profile-img-{i}.jpg',
                 job_title=fake.job(),
                 about_me=fake.text(),
                 birthday=fake.date_of_birth(minimum_age=22, maximum_age=60),
@@ -280,12 +283,17 @@ def seed_data():
             resume = Resume.objects.create(
                 home=home,
                 description=fake.sentence(),
-                summary_name=fake.name(),
-                summary_description=fake.sentence(),
-                summary_address=fake.address(),
-                summary_phone=fake.phone_number()[:15],
-                summary_email=fake.email(),
             )
+            for _ in range(1):
+                Summary.objects.create(
+                    home=home,
+                    resume=resume, 
+                    name=fake.name(),
+                    description=fake.sentence(),
+                    address=fake.address(),
+                    phone=fake.phone_number()[:15],
+                    email=fake.email(),
+                )
             
             for _ in range(2):
                 Education.objects.create(
@@ -310,6 +318,7 @@ def seed_data():
                 home=home,
                 description=fake.sentence()
             )
+            image_counter = 0
 
             for j in range(1, 10):
                 image_counter += 1
@@ -320,7 +329,7 @@ def seed_data():
                     category=random.choice(categories),
                     image=random.choice(images),
                     title=fake.sentence(nb_words=3),
-                    project_url='portfolio-details.html',
+                    url='portfolio_details',
                     portfolio=portfolio,
                     home=home
                 )

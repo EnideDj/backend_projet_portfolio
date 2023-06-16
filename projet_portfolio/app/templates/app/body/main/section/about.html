@@ -5,12 +5,12 @@
 
         <div class="section-title">
             <h2 id="about-title">About</h2>
-            <p id="about-text">{{ about_info.about_text }}</p>
+            <p id="about-text">{{ about_info.description }}</p>
         </div>
     
         <div class="row">
             <div class="col-lg-4" data-aos="fade-right">
-                <img src="{% static '' %}{{about_info.image_path}}" class="img-fluid" alt="" id="about-image">
+                <img src="{% static '' %}{{about_info.image}}" class="img-fluid" alt="" id="about-image">
             </div>
             <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
                 <h3 id="about-job">{{ about_info.job_title }}</h3>
